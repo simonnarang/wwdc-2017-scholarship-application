@@ -51,7 +51,12 @@ class SplashboardScene: SKScene {
         print(self.scene?.children ?? "No children")
     }
 
-
+    func createTarget(){
+        let target = SKSpriteNode(imageNamed: "target")
+        target.size = CGSize(width: 300, height: 300)
+        target.position = CGPoint(x: 500, y:500)
+        self.scene?.addChild(target)
+    }
     override func sceneDidLoad() {
         
         let label = SKLabelNode(fontNamed: "Arial")

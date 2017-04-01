@@ -59,31 +59,31 @@ class BiTreeScene: SKScene {
         if point.y > 350 {
             
             while childNode(withName: "ball") != nil {
-                    
-                    self.childNode(withName: "ball")?.removeFromParent()
-            
+                
+                self.childNode(withName: "ball")?.removeFromParent()
+                
             }
-        
+            
             let ball = SKShapeNode(circleOfRadius: 10 )
             ball.position = CGPoint(x: point.x, y: point.y)
             ball.strokeColor = SKColor.orange
             ball.glowWidth = 0.05
             ball.fillColor = wwdcColors[1]
             ball.name = "ball"
-        
+            
             ball.physicsBody = SKPhysicsBody(circleOfRadius: 9)
             ball.physicsBody?.affectedByGravity = true
             ball.physicsBody?.allowsRotation = true
             ball.physicsBody?.isDynamic = true;
             ball.physicsBody?.linearDamping = 0.00001
             ball.physicsBody?.angularDamping = 0.75
-        
+            
             addChild(ball)
             
         } else {
             
             print("You need to drop the ball from higher up 😜")
-        
+            
         }
         
     }
@@ -100,7 +100,7 @@ class BiTreeScene: SKScene {
             randomYVal = Int(arc4random_uniform(50) + 50)
         case 1:
             randomYVal = Int(arc4random_uniform(40) + 30)
-            default:
+        default:
             randomYVal = Int(arc4random_uniform(3) + 10)
         }
         
@@ -116,7 +116,7 @@ class BiTreeScene: SKScene {
         let obstacle = SKShapeNode(rectOf: randomSize)
         obstacle.fillColor = wwdcColors[Int(arc4random_uniform(6) + 3)]
         obstacle.position = CGPoint(x: randomXVal, y: randomYVal * 5)
-
+        
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: randomSize)
         obstacle.physicsBody?.isDynamic = false
         self.addChild(obstacle)
@@ -125,12 +125,12 @@ class BiTreeScene: SKScene {
         
         if randomAngle == 0 {
             
-             rotate = SKAction.rotate(byAngle: CGFloat(randomAngle - 3), duration: 2)
+            rotate = SKAction.rotate(byAngle: CGFloat(randomAngle - 3), duration: 2)
             
         } else {
             
             rotate = SKAction.rotate(byAngle: CGFloat(randomAngle), duration: 2)
-        
+            
         }
         
         
@@ -157,7 +157,7 @@ class BiTreeScene: SKScene {
         
         self.addChild(leftFloor)
         self.addChild(rightFloor)
-    
+        
     }
     
     func addSceneWalls() {
@@ -185,7 +185,7 @@ class BiTreeScene: SKScene {
         wallRight.lineWidth = 30
         wallRight.name = "wallRight"
         self.addChild(wallRight)
-    
+        
     }
 }
 
