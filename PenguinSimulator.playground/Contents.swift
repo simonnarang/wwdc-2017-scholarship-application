@@ -49,8 +49,9 @@ class SplashboardScene: SKScene {
         imageNode.size = CGSize(width: imageSize, height: imageSize)
         imageNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: imageSize, height: imageSize))
         imageNode.physicsBody?.affectedByGravity = false
+        imageNode.physicsBody?.mass = 5
         let sound = SKAction.playSoundFileNamed("splash.mp3", waitForCompletion: false)
-
+        
         paintball.run(moveNodeUp)
         paintball.run(moveNodeDown) { () -> Void in
             paintball.removeFromParent()
@@ -65,6 +66,7 @@ class SplashboardScene: SKScene {
         let randomx = Int(arc4random_uniform(25))-12
         let randomy = Int(arc4random_uniform(25))-12
         addPenguin(xMove: randomx, yMove: randomy)
+        addSceneWalls()
     }
     func addPenguin(xMove: Int, yMove: Int){
         let randomMove = SKAction.moveBy(x: CGFloat(xMove), y: CGFloat(yMove), duration: 0.1)
@@ -76,6 +78,33 @@ class SplashboardScene: SKScene {
         let moveRepeat = SKAction.repeatForever(randomMove)
         penguin.run(moveRepeat)
         self.scene?.addChild(penguin)
+    }
+    func addSceneWalls() {
+        
+        let wallLeftPath:CGMutablePath = CGMutablePath()
+        wallLeftPath.move(to: CGPoint(x: 0, y: 0))
+        wallLeftPath.addLine(to: CGPoint(x: 0, y: 500))
+        
+        let wallLeft = SKShapeNode()
+        wallLeft.path = wallLeftPath
+        wallLeft.physicsBody = SKPhysicsBody(edgeLoopFrom: wallLeftPath)
+        wallLeft.strokeColor = SKColor.clear
+        wallLeft.lineWidth = 30
+        wallLeft.name = "wallLeft"
+        self.addChild(wallLeft)
+        
+        let wallRightPath:CGMutablePath = CGMutablePath()
+        wallRightPath.move(to: CGPoint(x: 300, y: 0))
+        wallRightPath.addLine(to: CGPoint(x: 300, y: 500))
+        
+        let wallRight = SKShapeNode()
+        wallRight.path = wallRightPath
+        wallRight.physicsBody = SKPhysicsBody(edgeLoopFrom: wallRightPath)
+        wallRight.strokeColor = SKColor.clear
+        wallRight.lineWidth = 30
+        wallRight.name = "wallRight"
+        self.addChild(wallRight)
+        
     }
     override func sceneDidLoad() {
         
