@@ -1,16 +1,11 @@
-/*: Simon Narang's WWDC 2017 Application Playground
- 
- # Bouncy
- 
- */
-
-
+// Simon Narang's WWDC 2017 Scholarship Application Playground
 import PlaygroundSupport
 import SpriteKit
 import Darwin
 
 class BiTreeScene: SKScene {
     
+    // Array of colors to match WWDC theme
     let wwdcColors = [
         SKColor(red: 0.97, green: 0.97, blue:  0.97, alpha: 1.00),
         SKColor(red: 0.88, green: 0.68, blue:  0.04, alpha: 1.00),
@@ -23,8 +18,17 @@ class BiTreeScene: SKScene {
         SKColor(red: 0.94, green: 0.56, blue:  0.48, alpha: 1.00)
     ]
     
+    // Set up scene
     override func didMove(to view: SKView) {
         
+        print("Welcome 👋 Your goal is to drop a ball into the hole at the bottom. Good luck!")
+        print("If it's too hard or too easy, rerun this playground to generate a new setup!")
+        
+        /* 
+         Set gravity of scene to be -9.7
+         Real-life gravity is -9.8
+         However, movement looks more swift with a slightly lower value
+         */
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -9.7)
         
         addRotatingObstacle(heightSection: 0, widthSection: 1)
@@ -80,9 +84,11 @@ class BiTreeScene: SKScene {
             
             addChild(ball)
             
+            ball.run(SKAction.playSoundFileNamed("Create Ball.mp3", waitForCompletion: false))
+            
         } else {
             
-            print("You need to drop the ball from higher up 😜")
+            print("Nice try! You need to drop the ball from higher up 😜")
             
         }
         
@@ -106,7 +112,7 @@ class BiTreeScene: SKScene {
         
         switch widthSection {
         case 0:
-            randomXVal = Int(arc4random_uniform(100) + 10)
+            randomXVal = Int(arc4random_uniform(90) + 20)
         default:
             randomXVal = Int(arc4random_uniform(125) + 150)
         }

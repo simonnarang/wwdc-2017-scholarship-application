@@ -63,8 +63,8 @@ class SplashboardScene: SKScene {
         print(self.scene?.children ?? "No children")
     }
     override func didMove(to view: SKView) {
-        let randomx = Int(arc4random_uniform(25))-12
-        let randomy = Int(arc4random_uniform(25))-12
+        let randomx = Int(arc4random_uniform(100))-50
+        let randomy = Int(arc4random_uniform(100))-50
         addPenguin(xMove: randomx, yMove: randomy)
         addSceneWalls()
     }
@@ -80,31 +80,39 @@ class SplashboardScene: SKScene {
         self.scene?.addChild(penguin)
     }
     func addSceneWalls() {
+        let leftWall = SKShapeNode(rectOf: CGSize(width: 50, height: 2500))
+        leftWall.position = (CGPoint(x: 0, y: 1250))
+        leftWall.fillColor = SKColor(red: 0.02, green: 0.44, blue:  1.00, alpha: 1.00)
+        leftWall.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 2500))
+        leftWall.physicsBody?.affectedByGravity = false
+        leftWall.physicsBody?.isDynamic = false
+        self.scene?.addChild(leftWall)
         
-        let wallLeftPath:CGMutablePath = CGMutablePath()
-        wallLeftPath.move(to: CGPoint(x: 0, y: 0))
-        wallLeftPath.addLine(to: CGPoint(x: 0, y: 500))
+        let rightWall = SKShapeNode(rectOf: CGSize(width: 50, height: 2500))
+        rightWall.position = (CGPoint(x: 1500, y: 1250))
+        rightWall.fillColor = SKColor(red: 0.02, green: 0.44, blue:  1.00, alpha: 1.00)
+        rightWall.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 2500))
+        rightWall.physicsBody?.affectedByGravity = false
+        rightWall.physicsBody?.isDynamic = false
+        self.scene?.addChild(rightWall)
         
-        let wallLeft = SKShapeNode()
-        wallLeft.path = wallLeftPath
-        wallLeft.physicsBody = SKPhysicsBody(edgeLoopFrom: wallLeftPath)
-        wallLeft.strokeColor = SKColor.clear
-        wallLeft.lineWidth = 30
-        wallLeft.name = "wallLeft"
-        self.addChild(wallLeft)
         
-        let wallRightPath:CGMutablePath = CGMutablePath()
-        wallRightPath.move(to: CGPoint(x: 300, y: 0))
-        wallRightPath.addLine(to: CGPoint(x: 300, y: 500))
+        let bottomWall = SKShapeNode(rectOf: CGSize(width: 1500, height: 50))
+        bottomWall.position = (CGPoint(x: 750, y: 0))
+        bottomWall.fillColor = SKColor(red: 0.02, green: 0.44, blue:  1.00, alpha: 1.00)
+        bottomWall.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1500, height: 50))
+        bottomWall.physicsBody?.affectedByGravity = false
+        bottomWall.physicsBody?.isDynamic = false
+        self.scene?.addChild(bottomWall)
         
-        let wallRight = SKShapeNode()
-        wallRight.path = wallRightPath
-        wallRight.physicsBody = SKPhysicsBody(edgeLoopFrom: wallRightPath)
-        wallRight.strokeColor = SKColor.clear
-        wallRight.lineWidth = 30
-        wallRight.name = "wallRight"
-        self.addChild(wallRight)
         
+        let topWall = SKShapeNode(rectOf: CGSize(width: 1500, height: 50))
+        topWall.position = (CGPoint(x: 750, y: 2500))
+        topWall.fillColor = SKColor(red: 0.02, green: 0.44, blue:  1.00, alpha: 1.00)
+        topWall.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1500, height: 50))
+        topWall.physicsBody?.affectedByGravity = false
+        topWall.physicsBody?.isDynamic = false
+        self.scene?.addChild(topWall)
     }
     override func sceneDidLoad() {
         
