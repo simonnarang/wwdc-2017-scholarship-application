@@ -3,28 +3,29 @@ import PlaygroundSupport
 import SpriteKit
 import Darwin
 
-class BiTreeScene: SKScene {
+class BouncyScene: SKScene {
     
     // Array of colors to match WWDC theme
     let wwdcColors = [
-        SKColor(red: 0.97, green: 0.97, blue:  0.97, alpha: 1.00),
-        SKColor(red: 0.88, green: 0.68, blue:  0.04, alpha: 1.00),
-        SKColor(red: 0.00, green: 0.66, blue:  0.58, alpha: 1.00),
-        SKColor(red: 0.07, green: 0.69, blue:  0.80, alpha: 1.00),
-        SKColor(red: 0.90, green: 0.31, blue:  0.27, alpha: 1.00),
-        SKColor(red: 0.23, green: 0.36, blue:  0.44, alpha: 1.00),
-        SKColor(red: 0.91, green: 0.49, blue:  0.61, alpha: 1.00),
-        SKColor(red: 0.55, green: 0.55, blue:  0.55, alpha: 1.00),
-        SKColor(red: 0.94, green: 0.56, blue:  0.48, alpha: 1.00)
+        SKColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.00),
+        SKColor(red: 0.88, green: 0.68, blue: 0.04, alpha: 1.00),
+        SKColor(red: 0.00, green: 0.66, blue: 0.58, alpha: 1.00),
+        SKColor(red: 0.07, green: 0.69, blue: 0.80, alpha: 1.00),
+        SKColor(red: 0.90, green: 0.31, blue: 0.27, alpha: 1.00),
+        SKColor(red: 0.23, green: 0.36, blue: 0.44, alpha: 1.00),
+        SKColor(red: 0.91, green: 0.49, blue: 0.61, alpha: 1.00),
+        SKColor(red: 0.55, green: 0.55, blue: 0.55, alpha: 1.00),
+        SKColor(red: 0.94, green: 0.56, blue: 0.48, alpha: 1.00),
+        SKColor(red: 0.83, green: 0.69, blue: 0.57, alpha: 1.00)
     ]
     
     // Set up scene
     override func didMove(to view: SKView) {
         
         print("Welcome 👋 Your goal is to drop a ball into the hole at the bottom. Good luck!")
-        print("If it's too hard or too easy, rerun this playground to generate a new setup!")
+        print("If it's too hard or too easy, rerun this playground to generate a new and unique scene!")
         
-        /* 
+        /*
          Set gravity of scene to be -9.7
          Real-life gravity is -9.8
          However, movement looks more swift with a slightly lower value
@@ -41,8 +42,12 @@ class BiTreeScene: SKScene {
         addRotatingObstacle(heightSection: 1, widthSection: 0)
         addRotatingObstacle(heightSection: 2, widthSection: 1)
         
+        addSlidingObstacle()
+        
         addFloor()
         addSceneWalls()
+        
+        addBackgroundMusic()
         
     }
     
@@ -56,6 +61,16 @@ class BiTreeScene: SKScene {
             createBall(at: location)
             
         }
+    }
+    
+    func addBackgroundMusic() {
+        
+        if let backgroundMusic = Bundle.main.url(forResource: "Background Music", withExtension: "m4a") {
+            
+            addChild(SKAudioNode(url: backgroundMusic))
+            
+        }
+    
     }
     
     func createBall(at point: CGPoint) {
@@ -107,7 +122,7 @@ class BiTreeScene: SKScene {
         case 1:
             randomYVal = Int(arc4random_uniform(40) + 30)
         default:
-            randomYVal = Int(arc4random_uniform(3) + 10)
+            randomYVal = Int(arc4random_uniform(5) + 20)
         }
         
         switch widthSection {
@@ -120,7 +135,7 @@ class BiTreeScene: SKScene {
         let randomSize = CGSize(width: randomWidth, height: randomHeight)
         
         let obstacle = SKShapeNode(rectOf: randomSize)
-        obstacle.fillColor = wwdcColors[Int(arc4random_uniform(6) + 3)]
+        obstacle.fillColor = wwdcColors[Int(arc4random_uniform(7) + 3)]
         obstacle.position = CGPoint(x: randomXVal, y: randomYVal * 5)
         
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: randomSize)
@@ -143,6 +158,36 @@ class BiTreeScene: SKScene {
         let repeatRoatate = SKAction.repeatForever(rotate)
         obstacle.run(repeatRoatate)
         
+    }
+    
+    func addSlidingObstacle() {
+        
+        let randomWidth = Int(arc4random_uniform(60) + 50)
+        let randomHeight = Int(arc4random_uniform(20) + 10)
+        
+        let randomSize = CGSize(width: randomWidth, height: randomHeight)
+        
+        let obstacle = SKShapeNode(rectOf: randomSize)
+        
+        obstacle.position = CGPoint(x: 0, y: 40)
+        
+        obstacle.fillColor = wwdcColors[Int(arc4random_uniform(7) + 3)]
+        
+        obstacle.physicsBody = SKPhysicsBody(rectangleOf: randomSize)
+        obstacle.physicsBody?.isDynamic = false
+        
+        addChild(obstacle)
+        
+        let moveRight = SKAction.moveBy(x: frame.size.width , y: 0, duration: 2)
+        
+        let moveLeft = SKAction.moveBy(x: -frame.size.width, y: 0, duration: 2)
+        
+        
+        let moveBackAndForth = SKAction.repeatForever(SKAction.sequence([moveRight, moveLeft]))
+        
+        
+        obstacle.run(moveBackAndForth)
+
     }
     
     func addFloor() {
@@ -196,7 +241,7 @@ class BiTreeScene: SKScene {
 }
 
 
-let scene = BiTreeScene()
+let scene = BouncyScene()
 scene.scaleMode = .aspectFit
 scene.size = CGSize(width: 300, height: 500)
 scene.backgroundColor = SKColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.00)
